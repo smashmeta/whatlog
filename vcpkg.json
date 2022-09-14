@@ -1,0 +1,11 @@
+{
+  "name": "whatlog",
+  "version-string": "1.0.0",
+  "dependencies": [
+	"fmt",
+	"boost-dll",
+	"boost-log",
+	"boost-thread",
+	"boost-filesystem"
+  ]
+}

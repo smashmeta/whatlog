@@ -2,7 +2,6 @@
  *
  */
 
-#include <boost/asio.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/record_ostream.hpp>
@@ -11,6 +10,7 @@
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/support/date_time.hpp>
 #include <boost/dll.hpp>
+#include <fmt/format.h>
 #include <thread>
 #include <shared_mutex>
 #include <windows.h>
