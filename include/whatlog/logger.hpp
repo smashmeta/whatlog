@@ -19,6 +19,7 @@ namespace whatlog
 		static void initialize_file_logger(const boost::filesystem::path& log_directory, std::string log_file_name);
 	public:
 		logger(const std::string& location);
+		logger(const std::string& location, const std::string& fileFilter);
 
 		void info(const std::string& message);
 		void warning(const std::string& message);

@@ -9,6 +9,7 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/support/date_time.hpp>
+#include <boost/log/sinks/text_multifile_backend.hpp>
 #include <boost/dll.hpp>
 #include <fmt/format.h>
 #include <thread>
@@ -114,6 +115,8 @@ namespace whatlog
 	void logger::initialize_file_logger(const boost::filesystem::path& log_directory, std::string log_file_name)
 	{
 		namespace lg = boost::log;
+		namespace exp = lg::expressions; 
+
 		whatlog::logger log("initialize_file_logger");
 		
 		boost::filesystem::path log_file_path = log_directory / log_file_name;
@@ -128,15 +131,45 @@ namespace whatlog
 			lg::keywords::format = output_format
 		);
 
-		std::stringstream message;
-		message << "file logger initialized. saving log to directory:\"" << log_directory.string() << "\", with name: \"" << log_file_name << "\".";
-		log.info(message.str());
+		boost::shared_ptr<lg::core> core = lg::core::get();
+		auto backend = boost::make_shared<lg::sinks::text_multifile_backend>();
+
+		// setting up matching pattern to the different log files
+		auto pattern = (exp::stream << log_file_path_str << exp::attr<std::string>("FileFilter") << ".log");
+		backend->set_file_name_composer(lg::sinks::file::as_file_name_composer(pattern));
+
+		typedef lg::sinks::synchronous_sink<lg::sinks::text_multifile_backend> mf_sink_t;
+		boost::shared_ptr<mf_sink_t> sink(new mf_sink_t(backend));
+
+		// log entry format
+		auto format = (exp::stream << exp::attr<std::string>("TimeStamp") << " " <<
+			exp::attr<std::string>("Severity") << " " << exp::attr<std::string>("ThreadName") << 
+			" ::> " <<  exp::attr<std::string>("LogLocation") << " " << exp::smessage);
+
+		sink->set_formatter(format);
+		core->add_sink(sink);
+
+		log.info(fmt::format("file logger initialized. saving log to directory: {}, with name: {}.", log_directory.string(), log_file_name));
 	}
 
 	logger::logger(const std::string& location)
+		: logger(location, "")
 	{
+		// nothing for now
+	}
+
+	logger::logger(const std::string& location, const std::string& fileFilter)
+	{
+		std::string log_file_ext = "";
+		if (!fileFilter.empty())
+		{
+			log_file_ext = fileFilter;
+			log_file_ext.insert(0, 1, '_');
+		}
+
 		m_logger.add_attribute("LogLocation", boost::log::attributes::constant<std::string>(location));
 		m_logger.add_attribute("ThreadName", boost::log::attributes::constant<std::string>(log_thread_id_and_name()));
+		m_logger.add_attribute("FileFilter", boost::log::attributes::constant<std::string>(log_file_ext));
 	}
 
 	void logger::info(const std::string& message)
