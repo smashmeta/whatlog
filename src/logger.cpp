@@ -160,7 +160,7 @@ namespace whatlog
 
 	logger::logger(const std::string& location, const std::string& fileFilter)
 	{
-		std::string log_file_ext = "";
+		std::string log_file_ext;
 		if (!fileFilter.empty())
 		{
 			log_file_ext = fileFilter;
