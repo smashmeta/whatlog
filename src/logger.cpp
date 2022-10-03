@@ -22,9 +22,6 @@ namespace whatlog
 {
 	namespace 
 	{
-		// format string tell boost log how each log entry shall be saved and presented to the user
-		const std::string output_format = "[%TimeStamp%] [%Severity%]: %ThreadName% ::> [%LogLocation%] %Message%";
-
 		// map containing name alias for different threads spawned and renamed
 		static std::map<std::thread::id, std::string> thread_map;
 
@@ -105,6 +102,9 @@ namespace whatlog
 		// setting logger to log all severity levels
 		lg::core::get()->set_filter(lg::trivial::severity >= lg::trivial::info);
 
+		// format string tell boost log how each log entry shall be saved and presented to the user
+		const std::string output_format = "[%TimeStamp%] [%Severity%]: %ThreadName% ::> [%LogLocation%] %Message%";
+
 		// adding log to console
 		auto console_log = lg::add_console_log(
 			std::clog, 
@@ -121,15 +121,6 @@ namespace whatlog
 		
 		boost::filesystem::path log_file_path = log_directory / log_file_name;
 		std::string log_file_path_str = log_file_path.string();
-
-		// adding file logging
-		auto file_log = lg::add_file_log(
-			lg::keywords::file_name = log_file_path_str,
-			lg::keywords::rotation_size = 10 * 1024 * 1024,
-			lg::keywords::open_mode = std::ios_base::app,
-			lg::keywords::auto_flush = true,
-			lg::keywords::format = output_format
-		);
 
 		boost::shared_ptr<lg::core> core = lg::core::get();
 		auto backend = boost::make_shared<lg::sinks::text_multifile_backend>();
