@@ -9,10 +9,15 @@
 #include <boost/filesystem.hpp>
 #include <string>
 
+#ifdef WHATLOG_DLL
+#  define WHATLOG_EXPORT __declspec(dllexport)
+#else
+#  define WHATLOG_EXPORT __declspec(dllimport)
+#endif
 
 namespace whatlog
 {
-	class logger
+	class WHATLOG_EXPORT logger
 	{
 	public:
 		static void initialize_console_logger();

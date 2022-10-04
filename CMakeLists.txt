@@ -12,6 +12,7 @@ set(CMAKE_TOOLCHAIN_FILE "C:/Users/fredrhe/Desktop/void/programs/vcpkg/scripts/b
 
 set(WHATLOG_VERSION 1.0.0)
 project(whatlog VERSION ${WHATLOG_VERSION} LANGUAGES CXX)
+add_compile_definitions(WHATLOG_DLL)
 set(CMAKE_CXX_STANDARD 20)
 
 # adding boost dependencies
@@ -32,5 +33,3 @@ target_include_directories(whatlog PUBLIC "include")
 # adding thirdparty library dependencies
 target_link_libraries(whatlog PRIVATE Boost::log Boost::log_setup)
 target_link_libraries(whatlog PRIVATE fmt::fmt)
-
-install(TARGETS whatlog LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
