@@ -92,15 +92,13 @@ namespace whatlog
 	void logger::initialize_console_logger()
 	{
 		namespace lg = boost::log;
+		namespace exp = lg::expressions; 
 
 		// what does this do?
 		lg::add_common_attributes();
 
 		// what does this do?
 		lg::register_simple_formatter_factory<lg::trivial::severity_level, char>("Severity");
-
-		// setting logger to log all severity levels
-		lg::core::get()->set_filter(lg::trivial::severity >= lg::trivial::info);
 
 		// format string tell boost log how each log entry shall be saved and presented to the user
 		const std::string output_format = "[%TimeStamp%] [%Severity%]: %ThreadName% ::> [%LogLocation%] %Message%";
@@ -110,6 +108,8 @@ namespace whatlog
 			std::clog, 
 			lg::keywords::format = output_format
 		);
+
+		console_log->set_filter(exp::attr<std::string>("FileFilter") == "");
 	}
 
 	void logger::initialize_file_logger(const boost::filesystem::path& log_directory, std::string log_file_name)
@@ -133,9 +133,10 @@ namespace whatlog
 		boost::shared_ptr<mf_sink_t> sink(new mf_sink_t(backend));
 
 		// log entry format
-		auto format = (exp::stream << exp::attr<std::string>("TimeStamp") << " " <<
-			exp::attr<std::string>("Severity") << " " << exp::attr<std::string>("ThreadName") << 
-			" ::> " <<  exp::attr<std::string>("LogLocation") << " " << exp::smessage);
+		auto format = (exp::stream << 
+			exp::format_date_time< boost::posix_time::ptime >("TimeStamp", "[%Y-%m-%d %H:%M:%S.%f]") << " " <<
+			std::setw(8) << lg::trivial::severity << " " << exp::attr<std::string>("ThreadName") << 
+			" ::> [" <<  exp::attr<std::string>("LogLocation") << "] " << exp::smessage);
 
 		sink->set_formatter(format);
 		core->add_sink(sink);

@@ -34,6 +34,6 @@ namespace whatlog
 		trivial_severity_logger m_logger;
 	};
 
-	void rename_thread(const boost::thread::native_handle_type& handle_id, const std::string& name);
-	std::string thread_name();
+	void WHATLOG_EXPORT rename_thread(const boost::thread::native_handle_type& handle_id, const std::string& name);
+	std::string WHATLOG_EXPORT thread_name();
 }
