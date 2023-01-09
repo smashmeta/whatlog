@@ -109,7 +109,7 @@ namespace whatlog
 			lg::keywords::format = output_format
 		);
 
-		console_log->set_filter(exp::attr<std::string>("FileFilter") == "");
+		console_log->set_filter(exp::attr<std::string>("FileFilter") == std::string());
 	}
 
 	void logger::initialize_file_logger(const boost::filesystem::path& log_directory, std::string log_file_name)
@@ -145,7 +145,7 @@ namespace whatlog
 	}
 
 	logger::logger(const std::string& location)
-		: logger(location, "")
+		: logger(location, std::string())
 	{
 		// nothing for now
 	}
