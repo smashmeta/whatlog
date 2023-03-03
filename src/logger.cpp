@@ -164,17 +164,17 @@ namespace whatlog
 		m_logger.add_attribute("FileFilter", boost::log::attributes::constant<std::string>(log_file_ext));
 	}
 
-	void logger::info(const std::string& message)
+	void logger::info_internal(const std::string& message)
 	{
 		BOOST_LOG_SEV(m_logger, boost::log::trivial::info) << message;
 	}
 
-	void logger::warning(const std::string& message)
+	void logger::warning_internal(const std::string& message)
 	{
 		BOOST_LOG_SEV(m_logger, boost::log::trivial::warning) << message;
 	}
 
-	void logger::error(const std::string& message)
+	void logger::error_internal(const std::string& message)
 	{
 		BOOST_LOG_SEV(m_logger, boost::log::trivial::error) << message;
 	}

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <format>
 #include <boost/thread.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/filesystem.hpp>
@@ -17,7 +18,7 @@
 
 namespace whatlog
 {
-	class WHATLOG_EXPORT logger
+	class logger
 	{
 	public:
 		static void initialize_console_logger();
@@ -26,10 +27,29 @@ namespace whatlog
 		logger(const std::string& location);
 		logger(const std::string& location, const std::string& fileFilter);
 
-		void info(const std::string& message);
-		void warning(const std::string& message);
-		void error(const std::string& message);
+		template<typename ...args_t>
+		void info(std::string_view text, args_t ... args)
+		{
+			info_internal(std::vformat(text, std::make_format_args(args...)));
+		}
+
+		template<typename ...args_t>
+		void warning(std::string_view text, args_t ... args)
+		{
+			warning_internal(std::vformat(text, std::make_format_args(args...)));
+		}
+
+		template<typename ...args_t>
+		void error(std::string_view text, args_t ... args)
+		{
+			error_internal(std::vformat(text, std::make_format_args(args...)));
+		}
+		
 	private:
+		WHATLOG_EXPORT void info_internal(const std::string& message);
+		WHATLOG_EXPORT void warning_internal(const std::string& message);
+		WHATLOG_EXPORT void error_internal(const std::string& message);
+
 		typedef boost::log::sources::severity_logger<boost::log::trivial::severity_level> trivial_severity_logger;
 		trivial_severity_logger m_logger;
 	};

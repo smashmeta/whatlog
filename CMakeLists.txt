@@ -17,10 +17,10 @@ set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install")
 include(GNUInstallDirs)
 set(CMAKE_TOOLCHAIN_FILE "C:/Users/smashcomp/Desktop/void/libraries/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
-set(WHATLOG_VERSION 1.0.0)
+set(WHATLOG_VERSION 2.0.0)
 project(whatlog VERSION ${WHATLOG_VERSION} LANGUAGES CXX)
 add_compile_definitions(WHATLOG_DLL)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS YES CACHE BOOL "Export all symbols")
 set(CMAKE_DEBUG_POSTFIX d)
 
