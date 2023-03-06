@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(PROJECT_VERSION_MAJOR 1)
+set(PROJECT_VERSION_MAJOR 2)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_NAME "whatlog")
 
@@ -17,7 +17,6 @@ set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install")
 include(GNUInstallDirs)
 set(CMAKE_TOOLCHAIN_FILE "C:/Users/smashcomp/Desktop/void/libraries/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
-set(WHATLOG_VERSION 2.0.0)
 project(whatlog VERSION ${WHATLOG_VERSION} LANGUAGES CXX)
 add_compile_definitions(WHATLOG_DLL)
 set(CMAKE_CXX_STANDARD 23)
@@ -25,12 +24,10 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS YES CACHE BOOL "Export all symbols")
 set(CMAKE_DEBUG_POSTFIX d)
 
 # adding boost dependencies
-find_package(fmt CONFIG REQUIRED)
 find_package(Boost REQUIRED COMPONENTS log log_setup)
 
 # adding thirdparty include directories
 include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${fmt_INCLUDE_DIRS})
 
 file(GLOB whatlog_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/include/whatlog/*.hpp")
 file(GLOB whatlog_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
@@ -50,7 +47,6 @@ target_link_libraries(whatlog
     PUBLIC 
         Boost::log 
         Boost::log_setup
-        fmt::fmt
 )
 
 ############# INSTALL SECTION #######################################

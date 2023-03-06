@@ -11,7 +11,6 @@
 #include <boost/log/support/date_time.hpp>
 #include <boost/log/sinks/text_multifile_backend.hpp>
 #include <boost/dll.hpp>
-#include <fmt/format.h>
 #include <thread>
 #include <shared_mutex>
 #include <windows.h>
@@ -141,7 +140,8 @@ namespace whatlog
 		sink->set_formatter(format);
 		core->add_sink(sink);
 
-		log.info(fmt::format("file logger initialized. saving log to directory: {}, with name: {}.", log_directory.string(), log_file_name));
+		log.info("file logger initialized. saving log to directory: {}, with name: {}.", 
+			log_directory.string(), log_file_name);
 	}
 
 	logger::logger(const std::string& location)
