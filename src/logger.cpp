@@ -88,6 +88,11 @@ namespace whatlog
 		return result.str();
 	}
 
+	void logger::disable_logging()
+	{
+		boost::log::core::get()->set_logging_enabled(false);
+	}
+
 	void logger::initialize_console_logger()
 	{
 		namespace lg = boost::log;

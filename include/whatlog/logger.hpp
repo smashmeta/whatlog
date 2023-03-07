@@ -21,6 +21,7 @@ namespace whatlog
 	class logger
 	{
 	public:
+		static void disable_logging();
 		static void initialize_console_logger();
 		static void initialize_file_logger(const boost::filesystem::path& log_directory, std::string log_file_name);
 	public:
