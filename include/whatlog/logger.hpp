@@ -29,22 +29,23 @@ namespace whatlog
 		logger(const std::string& location, const std::string& fileFilter);
 
 		template<typename ...args_t>
-		void info(std::string_view text, args_t ... args)
+		void info(std::format_string<args_t...> text, args_t ... args)
 		{
-			info_internal(std::vformat(text, std::make_format_args(args...)));
+			info_internal(std::format(text, args...));
 		}
 
 		template<typename ...args_t>
-		void warning(std::string_view text, args_t ... args)
+		void warning(std::format_string<args_t...> text, args_t ... args)
 		{
-			warning_internal(std::vformat(text, std::make_format_args(args...)));
+			warning_internal(std::format(text, args...));
 		}
 
 		template<typename ...args_t>
-		void error(std::string_view text, args_t ... args)
+		void error(std::format_string<args_t...> text, args_t ... args)
 		{
-			error_internal(std::vformat(text, std::make_format_args(args...)));
+			error_internal(std::format(text, args...));
 		}
+
 		
 	private:
 		WHATLOG_EXPORT void info_internal(const std::string& message);
