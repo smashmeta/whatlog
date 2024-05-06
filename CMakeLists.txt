@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.20)
 set(PROJECT_VERSION_MAJOR 2)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_NAME "whatlog")
+project(whatlog VERSION ${WHATLOG_VERSION} LANGUAGES CXX)
 
 # CPack settings
 set(CPACK_PACKAGE_VENDOR ${PROJECT_NAME})
@@ -13,11 +14,9 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MAINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_CONTACT "smashmeta")
 
+set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install")
-include(GNUInstallDirs)
-set(CMAKE_TOOLCHAIN_FILE "C:/Users/smashcomp/Desktop/void/libraries/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
-project(whatlog VERSION ${WHATLOG_VERSION} LANGUAGES CXX)
 add_compile_definitions(WHATLOG_DLL)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS YES CACHE BOOL "Export all symbols")
